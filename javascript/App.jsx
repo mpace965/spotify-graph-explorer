@@ -13,6 +13,7 @@ class App extends React.Component {
 
     this.state = {
       artistAndRelated: {},
+      loadedArtists: [],
       destroyGraph: false
     }
   }
@@ -23,7 +24,11 @@ class App extends React.Component {
       url: '/artist/search',
       data: { name },
       success: artistAndRelated => {
-        this.setState({ artistAndRelated })
+        const { artist } = artistAndRelated
+        const { loadedArtists } = this.state
+        const newLoadedArtists = _.union(loadedArtists, [artist])
+
+        this.setState({ artistAndRelated, loadedArtists: newLoadedArtists })
       },
       error: response => {
         console.log(response)
@@ -37,7 +42,11 @@ class App extends React.Component {
       url: '/artist/find',
       data: { id },
       success: artistAndRelated => {
-        this.setState({ artistAndRelated })
+        const { artist } = artistAndRelated
+        const { loadedArtists } = this.state
+        const newLoadedArtists = _.union(loadedArtists, [artist])
+
+        this.setState({ artistAndRelated, loadedArtists: newLoadedArtists })
       },
       error: response => {
         console.log(response)
@@ -60,6 +69,7 @@ class App extends React.Component {
         <Nav pullRight>
           <NavDropdown title='Tools' id='basic-nav-pulldown'>
             <MenuItem href='/logout'>Sign Out</MenuItem>
+            <MenuItem onClick={() => this.makePlaylist()}>Make Playlist</MenuItem>
           </NavDropdown>
         </Nav>
         <Nav pullRight>
@@ -79,6 +89,7 @@ class App extends React.Component {
           artistAndRelated={this.state.artistAndRelated}
           destroyGraph={this.state.destroyGraph}
           getArtistAndRelated={artist => this.getArtistAndRelated(artist)}
+          loadedArtists={this.state.loadedArtists}
         />
       </div>
     )

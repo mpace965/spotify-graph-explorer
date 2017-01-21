@@ -10,10 +10,6 @@ class Graph extends React.Component {
     super(props)
 
     regCose(cytoscape)
-
-    this.state = {
-      loadedArtists: []
-    }
   }
 
   componentDidMount() {
@@ -74,8 +70,7 @@ class Graph extends React.Component {
   addArtistsToGraph() {
     const { getArtistAndRelated } = this.props
     const { artist, related_artists } = this.props.artistAndRelated
-    const { loadedArtists } = this.state
-    const newLoadedArtists = _.union(loadedArtists, [artist.id])
+    const { loadedArtists } = this.props
 
     // Add center artist node to graph
     if (!this.cy.getElementById(artist.id).length) {
@@ -119,8 +114,8 @@ class Graph extends React.Component {
     this.cy.$('node').off('tap')
     this.cy.$('node').on('tap', event => {
       const ele = event.cyTarget
-      const found = _.find(this.state.loadedArtists, id => {
-        return ele.data('id') === id
+      const found = _.find(this.props.loadedArtists, artist => {
+        return ele.data('id') === artist.id
       })
 
       // Only load related artists for ones that haven't been loaded yet
@@ -128,8 +123,6 @@ class Graph extends React.Component {
         getArtistAndRelated(ele.data('id'))
       }
     })
-
-    this.setState({ loadedArtists: newLoadedArtists })
   }
 
   render() {
