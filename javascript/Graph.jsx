@@ -1,8 +1,15 @@
 import React from 'react'
 import cytoscape from 'cytoscape'
+import regCose from 'cytoscape-cose-bilkent'
 
 class Graph extends React.Component {
   cy = null
+
+  constructor(props) {
+    super(props)
+
+    regCose(cytoscape)
+  }
 
   componentDidMount() {
     const { getArtistAndRelated } = this.props
@@ -10,11 +17,23 @@ class Graph extends React.Component {
     let cy = cytoscape({
       container: document.getElementById('cy'),
       elements: [],
+      style: [
+        {
+          selector: 'node',
+          style: {
+            height: '32',
+            width: '32',
+            label: 'data(name)'
+          }
+        }
+      ]
     })
 
     this.cy = cy
 
     getArtistAndRelated('kanye')
+    getArtistAndRelated('big sean')
+    getArtistAndRelated('childish gambino')
   }
 
   componentDidUpdate(prevProps) {
@@ -29,10 +48,10 @@ class Graph extends React.Component {
   addArtistsToGraph() {
     const { artist, related_artists } = this.props.artistAndRelated
 
-    this.cy.add({ data: { id: artist.id } })
+    this.cy.add({ data: { id: artist.id, name: artist.name } })
 
     _.forEach(related_artists, relatedArtist => {
-      this.cy.add({ data: { id: relatedArtist.id } })
+      this.cy.add({ data: { id: relatedArtist.id, name: relatedArtist.name } })
 
       this.cy.add({
         data: {
@@ -43,7 +62,7 @@ class Graph extends React.Component {
       })
     })
 
-    this.cy.layout({ name: 'circle' })
+    this.cy.layout({ name: 'cose-bilkent' })
   }
 
   render() {
