@@ -7,15 +7,11 @@ import Graph from './Graph.jsx'
 class App extends React.Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      elements: []
-    }
   }
 
   renderNavbar() {
     return (
-      <Navbar>
+      <Navbar id='nav'>
         <Navbar.Header>
           <Navbar.Brand>
             <a href='#'>Spotify Graph Explorer</a>
@@ -26,12 +22,10 @@ class App extends React.Component {
   }
 
   render() {
-    const { elements } = this.state
-
     return (
-      <div>
+      <div style={{ height: '100%', overflow: 'hidden' }}>
         {this.renderNavbar()}
-        <Graph elements={elements} />
+        <Graph />
       </div>
     )
   }
