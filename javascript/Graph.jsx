@@ -88,6 +88,10 @@ class Graph extends React.Component {
     })
 
     this.cy.layout({ name: 'cose-bilkent' })
+    this.cy.$('node').on('tap', event => {
+      const ele = event.cyTarget
+      this.cy.fit(ele.neighborhood())
+    })
   }
 
   render() {
