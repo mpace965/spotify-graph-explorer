@@ -37,6 +37,13 @@ class Graph extends React.Component {
             'text-valign': 'bottom',
             'text-margin-y': '-30'
           }
+        },
+        {
+          selector: '.loaded',
+          style: {
+            'height': '256',
+            'width': '256'
+          }
         }
       ]
     })
@@ -44,7 +51,6 @@ class Graph extends React.Component {
     this.cy = cy
 
     getArtistAndRelated('kanye')
-    getArtistAndRelated('childish gambino')
   }
 
   componentDidUpdate(prevProps) {
@@ -71,30 +77,38 @@ class Graph extends React.Component {
     const newLoadedArtists = _.union(loadedArtists, [artist.id])
 
     // Add center artist node to graph
-    this.cy.add({ data: {
-        id: artist.id,
-        name: artist.name,
-        image: this.artistImageUrlIfExists(artist)
-      }
-    })
+    if (!this.cy.getElementById(artist.id).length) {
+      this.cy.add({ data: {
+          id: artist.id,
+          name: artist.name,
+          image: this.artistImageUrlIfExists(artist)
+        }
+      })
+    }
+
+    this.cy.getElementById(artist.id).addClass('loaded')
 
     // Add all related artists nodes to graph, and connect them to center
     // artist
     _.forEach(related_artists, relatedArtist => {
-      this.cy.add({ data: {
-          id: relatedArtist.id,
-          name: relatedArtist.name,
-          image: this.artistImageUrlIfExists(relatedArtist)
-        }
-      })
+      if (!this.cy.getElementById(relatedArtist.id).length) {
+        this.cy.add({ data: {
+            id: relatedArtist.id,
+            name: relatedArtist.name,
+            image: this.artistImageUrlIfExists(relatedArtist)
+          }
+        })
+      }
 
-      this.cy.add({
-        data: {
-          id: `${artist.id}-${relatedArtist.id}`,
-          source: artist.id,
-          target: relatedArtist.id
-        }
-      })
+      if (!this.cy.getElementById(`${artist.id}-${relatedArtist.id}`).length) {
+        this.cy.add({
+          data: {
+            id: `${artist.id}-${relatedArtist.id}`,
+            source: artist.id,
+            target: relatedArtist.id
+          }
+        })
+      }
     })
 
     // Redraw the layout
