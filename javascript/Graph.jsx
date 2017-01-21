@@ -10,6 +10,10 @@ class Graph extends React.Component {
     super(props)
 
     regCose(cytoscape)
+
+    this.state = {
+      loadedArtists: []
+    }
   }
 
   componentDidMount() {
@@ -61,8 +65,12 @@ class Graph extends React.Component {
   }
 
   addArtistsToGraph() {
+    const { getArtistAndRelated } = this.props
     const { artist, related_artists } = this.props.artistAndRelated
+    const { loadedArtists } = this.state
+    const newLoadedArtists = _.union(loadedArtists, [artist.id])
 
+    // Add center artist node to graph
     this.cy.add({ data: {
         id: artist.id,
         name: artist.name,
@@ -70,6 +78,8 @@ class Graph extends React.Component {
       }
     })
 
+    // Add all related artists nodes to graph, and connect them to center
+    // artist
     _.forEach(related_artists, relatedArtist => {
       this.cy.add({ data: {
           id: relatedArtist.id,
@@ -87,11 +97,24 @@ class Graph extends React.Component {
       })
     })
 
+    // Redraw the layout
     this.cy.layout({ name: 'cose-bilkent' })
+
+    // Reset tap events with new state
+    this.cy.$('node').off('tap')
     this.cy.$('node').on('tap', event => {
       const ele = event.cyTarget
-      this.cy.fit(ele.neighborhood())
+      const found = _.find(this.state.loadedArtists, id => {
+        return ele.data('id') === id
+      })
+
+      // Only load related artists for ones that haven't been loaded yet
+      if (!found) {
+        getArtistAndRelated(ele.data('name'))
+      }
     })
+
+    this.setState({ loadedArtists: newLoadedArtists })
   }
 
   render() {
