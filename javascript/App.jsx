@@ -31,7 +31,7 @@ class App extends React.Component {
 
   renderNavbar() {
     return (
-      <Navbar id='nav'>
+      <Navbar id='nav' style={{ marginBottom: '0px' }}>
         <Navbar.Header>
           <Navbar.Brand>
             <a href='#'>Spotify Graph Explorer</a>

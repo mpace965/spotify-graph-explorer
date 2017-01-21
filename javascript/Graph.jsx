@@ -1,6 +1,7 @@
 import React from 'react'
 import cytoscape from 'cytoscape'
 import regCose from 'cytoscape-cose-bilkent'
+import _ from 'lodash'
 
 class Graph extends React.Component {
   cy = null
@@ -21,9 +22,16 @@ class Graph extends React.Component {
         {
           selector: 'node',
           style: {
-            height: '32',
-            width: '32',
-            label: 'data(name)'
+            'height': '128',
+            'width': '128',
+            'label': 'data(name)',
+            'background-image': 'data(image)',
+            'background-fit': 'cover',
+            'color': 'white',
+            'text-outline-color': '#000',
+            'text-outline-width': '2',
+            'text-valign': 'bottom',
+            'text-margin-y': '-30'
           }
         }
       ]
@@ -32,7 +40,6 @@ class Graph extends React.Component {
     this.cy = cy
 
     getArtistAndRelated('kanye')
-    getArtistAndRelated('big sean')
     getArtistAndRelated('childish gambino')
   }
 
@@ -45,13 +52,31 @@ class Graph extends React.Component {
     }
   }
 
+  artistImageUrlIfExists(artist) {
+    const image = _.first(artist.images)
+
+    if (image) {
+      return image.url
+    }
+  }
+
   addArtistsToGraph() {
     const { artist, related_artists } = this.props.artistAndRelated
 
-    this.cy.add({ data: { id: artist.id, name: artist.name } })
+    this.cy.add({ data: {
+        id: artist.id,
+        name: artist.name,
+        image: this.artistImageUrlIfExists(artist)
+      }
+    })
 
     _.forEach(related_artists, relatedArtist => {
-      this.cy.add({ data: { id: relatedArtist.id, name: relatedArtist.name } })
+      this.cy.add({ data: {
+          id: relatedArtist.id,
+          name: relatedArtist.name,
+          image: this.artistImageUrlIfExists(relatedArtist)
+        }
+      })
 
       this.cy.add({
         data: {
