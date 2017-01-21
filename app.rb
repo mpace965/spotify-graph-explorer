@@ -16,9 +16,12 @@ get '/search' do
   artist = artists.first
   artist_hash = artist_to_artist_hash artist
 
-  artist_hash[:related_artists] = artist.related_artists.map { |a| artist_to_artist_hash a }
+  related_artists = artist.related_artists.map { |a| artist_to_artist_hash a }
 
-  artist_hash.to_json
+  {
+    artist: artist_hash,
+    related_artists: related_artists
+  }.to_json
 end
 
 def artist_to_artist_hash artist
