@@ -12,7 +12,8 @@ class App extends React.Component {
     super(props)
 
     this.state = {
-      artistAndRelated: {}
+      artistAndRelated: {},
+      destroyGraph: false
     }
   }
 
@@ -30,12 +31,16 @@ class App extends React.Component {
     })
   }
 
+  resetGraph() {
+    this.setState({ destroyGraph: !this.state.destroyGraph })
+  }
+
   renderNavbar() {
     return (
       <Navbar id='nav' style={{ marginBottom: '0px' }}>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href='#'>Spotify Graph Explorer</a>
+            <a href='#' onClick={() => this.resetGraph()}>Spotify Graph Explorer</a>
           </Navbar.Brand>
         </Navbar.Header>
         <Nav pullRight>
@@ -53,6 +58,7 @@ class App extends React.Component {
         {this.renderNavbar()}
         <Graph
           artistAndRelated={this.state.artistAndRelated}
+          destroyGraph={this.state.destroyGraph}
           getArtistAndRelated={artist => this.getArtistAndRelated(artist)}
         />
       </div>

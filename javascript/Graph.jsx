@@ -52,11 +52,14 @@ class Graph extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { artistAndRelated } = this.props
+    const { artistAndRelated, destroyGraph } = this.props
     const prevArtistAndRelated = prevProps.artistAndRelated
+    const prevDestroyGraph = prevProps.destroyGraph
 
     if (artistAndRelated !== prevArtistAndRelated) {
       this.addArtistsToGraph()
+    } else if (destroyGraph !== prevDestroyGraph) {
+      this.cy.destroy()
     }
   }
 
