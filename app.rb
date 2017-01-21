@@ -21,6 +21,11 @@ get '/' do
   haml :index
 end
 
+get '/logout' do
+  session.clear
+  redirect '/'
+end
+
 get '/auth/spotify/callback' do
   session[:spotify_user] = request.env['omniauth.auth']
   redirect '/'

@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { Navbar, Nav, NavItem } from 'react-bootstrap'
+import { Navbar, Nav, NavDropdown, MenuItem } from 'react-bootstrap'
 import $ from 'jquery'
 import _ from 'lodash'
 
@@ -57,6 +57,11 @@ class App extends React.Component {
             <a href='#' onClick={() => this.resetGraph()}>Spotify Graph Explorer</a>
           </Navbar.Brand>
         </Navbar.Header>
+        <Nav pullRight>
+          <NavDropdown title='Tools' id='basic-nav-pulldown'>
+            <MenuItem href='/logout'>Sign Out</MenuItem>
+          </NavDropdown>
+        </Nav>
         <Nav pullRight>
           <Search
             searchArtistAndRelated={artist => this.searchArtistAndRelated(artist)}
