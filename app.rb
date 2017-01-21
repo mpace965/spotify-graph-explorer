@@ -21,16 +21,6 @@ get '/' do
   haml :index
 end
 
-get '/logout' do
-  session.clear
-  redirect '/'
-end
-
-get '/auth/spotify/callback' do
-  session[:spotify_user] = request.env['omniauth.auth']
-  redirect '/'
-end
-
 get '/artist/search' do
   content_type :json
 
@@ -58,6 +48,16 @@ get '/artist/find' do
     artist: artist_hash,
     related_artists: related_artists
   }.to_json
+end
+
+get '/auth/spotify/callback' do
+  session[:spotify_user] = request.env['omniauth.auth']
+  redirect '/'
+end
+
+get '/logout' do
+  session.clear
+  redirect '/'
 end
 
 def artist_to_artist_hash artist
