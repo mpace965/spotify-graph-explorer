@@ -15,10 +15,10 @@ class Search extends React.Component {
   }
 
   onSearch(e) {
-    const { getArtistAndRelated } = this.props
+    const { searchArtistAndRelated } = this.props
     e.preventDefault()
 
-    getArtistAndRelated(this.state.term)
+    searchArtistAndRelated(this.state.term)
   }
 
   render() {

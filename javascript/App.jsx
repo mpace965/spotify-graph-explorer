@@ -17,11 +17,25 @@ class App extends React.Component {
     }
   }
 
-  getArtistAndRelated(artist) {
+  searchArtistAndRelated(name) {
     $.ajax({
       type: 'get',
-      url: '/search',
-      data: { artist },
+      url: '/artist/search',
+      data: { name },
+      success: artistAndRelated => {
+        this.setState({ artistAndRelated })
+      },
+      error: response => {
+        console.log(response)
+      }
+    })
+  }
+
+  getArtistAndRelated(id) {
+    $.ajax({
+      type: 'get',
+      url: '/artist/find',
+      data: { id },
       success: artistAndRelated => {
         this.setState({ artistAndRelated })
       },
@@ -45,7 +59,7 @@ class App extends React.Component {
         </Navbar.Header>
         <Nav pullRight>
           <Search
-            getArtistAndRelated={artist => this.getArtistAndRelated(artist)}
+            searchArtistAndRelated={artist => this.searchArtistAndRelated(artist)}
           />
         </Nav>
       </Navbar>

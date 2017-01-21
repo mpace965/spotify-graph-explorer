@@ -125,7 +125,7 @@ class Graph extends React.Component {
 
       // Only load related artists for ones that haven't been loaded yet
       if (!found) {
-        getArtistAndRelated(ele.data('name'))
+        getArtistAndRelated(ele.data('id'))
       }
     })
 
