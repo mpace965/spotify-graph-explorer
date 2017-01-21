@@ -1,6 +1,9 @@
 require 'sinatra'
 require 'rspotify'
 require 'json'
+require 'dotenv'
+
+Dotenv.load
 
 set :haml, format: :html5
 set :public_folder, 'public'
