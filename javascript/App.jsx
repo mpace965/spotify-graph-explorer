@@ -1,10 +1,11 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { Navbar } from 'react-bootstrap'
+import { Navbar, Nav, NavItem } from 'react-bootstrap'
 import $ from 'jquery'
 import _ from 'lodash'
 
 import Graph from './Graph.jsx'
+import Search from './Search.jsx'
 
 class App extends React.Component {
   constructor(props) {
@@ -37,6 +38,11 @@ class App extends React.Component {
             <a href='#'>Spotify Graph Explorer</a>
           </Navbar.Brand>
         </Navbar.Header>
+        <Nav pullRight>
+          <Search
+            getArtistAndRelated={artist => this.getArtistAndRelated(artist)}
+          />
+        </Nav>
       </Navbar>
     )
   }

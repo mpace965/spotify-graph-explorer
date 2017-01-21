@@ -49,8 +49,6 @@ class Graph extends React.Component {
     })
 
     this.cy = cy
-
-    getArtistAndRelated('kanye')
   }
 
   componentDidUpdate(prevProps) {
