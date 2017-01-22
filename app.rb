@@ -69,11 +69,14 @@ get '/make-playlist' do
 
   tracks = artists.map { |a| RSpotify::Artist.find(a['id']).top_tracks(:US).first }
 
-  playlist = spotify_user.create_playlist! "#{artists.first['name']} to #{artists.last['name']}"
+  title = "#{artists.first['name']} to #{artists.last['name']}"
+
+  playlist = spotify_user.create_playlist! title
   playlist.add_tracks! tracks
 
   {
-    playlist_url: playlist.external_urls['spotify']
+    url: playlist.external_urls['spotify'],
+    title: title
   }.to_json
 end
 

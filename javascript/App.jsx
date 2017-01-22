@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { Navbar, Nav, NavDropdown, MenuItem } from 'react-bootstrap'
+import { Navbar, Nav, NavDropdown, MenuItem, Modal } from 'react-bootstrap'
 import $ from 'jquery'
 import _ from 'lodash'
 
@@ -14,8 +14,14 @@ class App extends React.Component {
     this.state = {
       artistAndRelated: {},
       loadedArtists: [],
-      destroyGraph: false
+      destroyGraph: false,
+      showPlaylistModal: false,
+      playlistInfo: {}
     }
+  }
+
+  closePlayListModal() {
+    this.setState({ showPlaylistModal: false })
   }
 
   searchArtistAndRelated(name) {
@@ -61,7 +67,7 @@ class App extends React.Component {
         url: '/make-playlist',
         data: { artists: this.state.loadedArtists },
         success: response => {
-          window.open(response.playlist_url)
+          this.setState({ showPlaylistModal: true, playlistInfo: response })
         },
         error: response => {
           console.log(response)
@@ -107,6 +113,21 @@ class App extends React.Component {
           getArtistAndRelated={artist => this.getArtistAndRelated(artist)}
           loadedArtists={this.state.loadedArtists}
         />
+
+        <Modal
+          show={this.state.showPlaylistModal}
+          onHide={() => this.closePlayListModal()}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>{this.state.playlistInfo.title}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>
+              Your playlist that connects {this.state.playlistInfo.title} has been made.{' '}
+              <a href={this.state.playlistInfo.url} target='_blank'>Click here</a> to access it!
+            </p>
+          </Modal.Body>
+        </Modal>
       </div>
     )
   }
