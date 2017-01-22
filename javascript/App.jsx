@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { Navbar, Nav, NavDropdown, MenuItem, Modal } from 'react-bootstrap'
+import { Jumbotron, Navbar, Nav, NavDropdown, MenuItem, Modal } from 'react-bootstrap'
 import $ from 'jquery'
 import _ from 'lodash'
 
@@ -16,7 +16,8 @@ class App extends React.Component {
       loadedArtists: [],
       destroyGraph: false,
       showPlaylistModal: false,
-      playlistInfo: {}
+      playlistInfo: {},
+      hasSearched: false
     }
   }
 
@@ -25,6 +26,8 @@ class App extends React.Component {
   }
 
   searchArtistAndRelated(name) {
+    this.setState({ hasSearched: true })
+
     $.ajax({
       type: 'get',
       url: '/artist/search',
@@ -85,7 +88,7 @@ class App extends React.Component {
       <Navbar id='nav' style={{ marginBottom: '0px' }}>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href='#' onClick={() => this.resetGraph()}>Spotify Graph Explorer</a>
+            <a href='#' onClick={() => location.reload()}>Spotify Graph Explorer</a>
           </Navbar.Brand>
         </Navbar.Header>
         <Nav pullRight>
@@ -103,16 +106,38 @@ class App extends React.Component {
     )
   }
 
-  render() {
-    return (
-      <div style={{ height: '100%', overflow: 'hidden' }}>
-        {this.renderNavbar()}
+  renderHelpOrGraph() {
+    if (this.state.hasSearched) {
+      return (
         <Graph
           artistAndRelated={this.state.artistAndRelated}
           destroyGraph={this.state.destroyGraph}
           getArtistAndRelated={artist => this.getArtistAndRelated(artist)}
           loadedArtists={this.state.loadedArtists}
         />
+      )
+    } else {
+      return (
+        <div className='container'>
+          <Jumbotron>
+            <h1>Let's get started</h1>
+            <h4>
+              Search for any of your favorite artists and take a look at artists similar{' '}
+              to them. Then, click on any node to explore its related artists. After selecting{' '}
+              several artists, you can export your similar artists chain as a playlist on your{' '}
+              Spotify account!
+            </h4>
+          </Jumbotron>
+        </div>
+      )
+    }
+  }
+
+  render() {
+    return (
+      <div style={{ height: '100%', overflow: 'hidden' }}>
+        {this.renderNavbar()}
+        {this.renderHelpOrGraph()}
 
         <Modal
           show={this.state.showPlaylistModal}
