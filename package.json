@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "webpack -d --watch",
     "build": "webpack -p",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "node_modules/.bin/webpack  -p"
   },
   "author": "",
   "license": "ISC",
