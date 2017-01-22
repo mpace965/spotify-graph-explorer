@@ -54,6 +54,22 @@ class App extends React.Component {
     })
   }
 
+  makePlaylist() {
+    if (this.state.loadedArtists.length >= 2) {
+      $.ajax({
+        type: 'get',
+        url: '/make-playlist',
+        data: { artists: this.state.loadedArtists },
+        success: response => {
+          window.open(response.playlist_url)
+        },
+        error: response => {
+          console.log(response)
+        }
+      })
+    }
+  }
+
   resetGraph() {
     this.setState({ destroyGraph: !this.state.destroyGraph })
   }
@@ -68,8 +84,8 @@ class App extends React.Component {
         </Navbar.Header>
         <Nav pullRight>
           <NavDropdown title='Tools' id='basic-nav-pulldown'>
-            <MenuItem href='/logout'>Sign Out</MenuItem>
             <MenuItem onClick={() => this.makePlaylist()}>Make Playlist</MenuItem>
+            <MenuItem href='/logout'>Sign Out</MenuItem>
           </NavDropdown>
         </Nav>
         <Nav pullRight>

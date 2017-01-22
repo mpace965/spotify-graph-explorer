@@ -14,7 +14,7 @@ set :public_folder, 'public'
 RSpotify::authenticate(ENV['SPOTIFY_CLIENT_ID'], ENV['SPOTIFY_CLIENT_SECRET'])
 
 use OmniAuth::Builder do
-  provider :spotify, ENV['SPOTIFY_CLIENT_ID'], ENV['SPOTIFY_CLIENT_SECRET'], scope: 'playlist-modify-public'
+  provider :spotify, ENV['SPOTIFY_CLIENT_ID'], ENV['SPOTIFY_CLIENT_SECRET'], scope: 'playlist-modify-public playlist-modify-private'
 end
 
 get '/' do
@@ -51,13 +51,30 @@ get '/artist/find' do
 end
 
 get '/auth/spotify/callback' do
-  session[:spotify_user] = request.env['omniauth.auth']
+  spotify_user = RSpotify::User.new(request.env['omniauth.auth'])
+  session[:spotify_user] = spotify_user.to_hash
   redirect '/'
 end
 
 get '/logout' do
   session.clear
   redirect '/'
+end
+
+get '/make-playlist' do
+  content_type :json
+
+  artists = params[:artists].to_a.map { |a| a[1] }
+  spotify_user = RSpotify::User.new(session[:spotify_user])
+
+  tracks = artists.map { |a| RSpotify::Artist.find(a['id']).top_tracks(:US).first }
+
+  playlist = spotify_user.create_playlist! "#{artists.first['name']} to #{artists.last['name']}"
+  playlist.add_tracks! tracks
+
+  {
+    playlist_url: playlist.external_urls['spotify']
+  }.to_json
 end
 
 def artist_to_artist_hash artist
