@@ -64,7 +64,7 @@ end
 get '/make-playlist' do
   content_type :json
 
-  artists = params[:artists].to_a.map { |a| a[1] }
+  artists = params[:artistChain].to_a.map { |a| a[1] }
   spotify_user = RSpotify::User.new(session[:spotify_user])
 
   tracks = artists.map { |a| RSpotify::Artist.find(a['id']).top_tracks(:US).first }

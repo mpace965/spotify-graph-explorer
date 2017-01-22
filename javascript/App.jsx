@@ -25,6 +25,14 @@ class App extends React.Component {
     this.setState({ showPlaylistModal: false })
   }
 
+  processSearchAndGet(artistAndRelated) {
+    const { artist } = artistAndRelated
+    const { loadedArtists } = this.state
+    const newLoadedArtists = _.union(loadedArtists, [artist])
+
+    this.setState({ artistAndRelated, loadedArtists: newLoadedArtists })
+  }
+
   searchArtistAndRelated(name) {
     this.setState({ hasSearched: true })
 
@@ -33,11 +41,7 @@ class App extends React.Component {
       url: '/artist/search',
       data: { name },
       success: artistAndRelated => {
-        const { artist } = artistAndRelated
-        const { loadedArtists } = this.state
-        const newLoadedArtists = _.union(loadedArtists, [artist])
-
-        this.setState({ artistAndRelated, loadedArtists: newLoadedArtists })
+        this.processSearchAndGet(artistAndRelated)
       },
       error: response => {
         console.log(response)
@@ -51,11 +55,7 @@ class App extends React.Component {
       url: '/artist/find',
       data: { id },
       success: artistAndRelated => {
-        const { artist } = artistAndRelated
-        const { loadedArtists } = this.state
-        const newLoadedArtists = _.union(loadedArtists, [artist])
-
-        this.setState({ artistAndRelated, loadedArtists: newLoadedArtists })
+        this.processSearchAndGet(artistAndRelated)
       },
       error: response => {
         console.log(response)
@@ -64,11 +64,18 @@ class App extends React.Component {
   }
 
   makePlaylist() {
+    const artistChain = _.map(this.state.loadedArtists, artist => {
+      return {
+        name: artist.name,
+        id: artist.id
+      }
+    })
+
     if (this.state.loadedArtists.length >= 2) {
       $.ajax({
         type: 'get',
         url: '/make-playlist',
-        data: { artists: this.state.loadedArtists },
+        data: {artistChain},
         success: response => {
           this.setState({ showPlaylistModal: true, playlistInfo: response })
         },
