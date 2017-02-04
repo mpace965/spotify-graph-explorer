@@ -5,7 +5,7 @@ var BUILD_DIR = path.resolve(__dirname, 'public');
 var APP_DIR = path.resolve(__dirname, 'javascript');
 
 var config = {
-  entry: APP_DIR + '/App.jsx',
+  entry: APP_DIR + '/components/App.jsx',
   output: {
     path: BUILD_DIR,
     filename: 'bundle.js'
