@@ -95,8 +95,24 @@ class Graph extends React.Component {
     }
   }
 
-  addArtistsToGraph() {
+  resetTapEvents(artist) {
     const { getArtistAndRelated } = this.props
+    
+    this.cy.$('node').off('tap')
+    this.cy.$('node').on('tap', event => {
+      const ele = event.cyTarget
+      const found = _.find(this.props.loadedArtists, artist => {
+        return ele.data('id') === artist.id
+      })
+
+      // Only load related artists for ones that haven't been loaded yet
+      if (!found) {
+        getArtistAndRelated(ele.data('id'))
+      }
+    })
+  }
+
+  addArtistsToGraph() {
     const { artist, related_artists } = this.props.artistAndRelated
     const { loadedArtists } = this.props
 
@@ -116,18 +132,7 @@ class Graph extends React.Component {
     this.cy.layout({ name: 'cose-bilkent' })
 
     // Reset tap events with new state
-    this.cy.$('node').off('tap')
-    this.cy.$('node').on('tap', event => {
-      const ele = event.cyTarget
-      const found = _.find(this.props.loadedArtists, artist => {
-        return ele.data('id') === artist.id
-      })
-
-      // Only load related artists for ones that haven't been loaded yet
-      if (!found) {
-        getArtistAndRelated(ele.data('id'))
-      }
-    })
+    this.resetTapEvents(artist)
   }
 
   render() {
