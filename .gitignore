@@ -1,4 +1,9 @@
 node_modules/
-*bundle*
+public/bundle*
+public/*.eot
+public/*.woff2
+public/*.woff
+public/*.ttf
+public/*.svg
 .env
 *.log

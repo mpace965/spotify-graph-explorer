@@ -2,6 +2,8 @@ import React from 'react'
 import $ from 'jquery'
 import _ from 'lodash'
 
+import 'style/bootswatch'
+
 import PropHelper from 'helpers/PropHelper'
 
 import GraphExplorer from './GraphExplorer'
