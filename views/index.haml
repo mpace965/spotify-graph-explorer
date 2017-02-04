@@ -7,14 +7,8 @@
     %link{ rel: "stylesheet", href: "https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/paper/bootstrap.min.css" }
   %body{ style: 'height: 100%' }
     - if session[:spotify_user]
-      #app{ style: 'height: 100%; overflow: hidden' }
-      %script{ type: 'text/javascript', src: 'bundle.js' }
+      #app{ style: 'height: 100%; overflow: hidden', reactprops: { auth: true }.to_json }
     - else
-      %nav.navbar.navbar-default
-        .container
-          .navbar-header
-            %a.navbar-brand{ href: '#' } Spotify Graph Explorer
-      .container
-        .jumbotron
-          %p Please authorize Spotify to begin using Spotify Graph Explorer
-          %a.btn.btn-primary.btn-lg{ href: '/auth/spotify' } Sign in
+      #app{ style: 'height: 100%; overflow: hidden', reactprops: { auth: false }.to_json }
+
+    %script{ type: 'text/javascript', src: 'bundle.js' }

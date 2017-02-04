@@ -6,17 +6,21 @@ var APP_DIR = path.resolve(__dirname, 'javascript');
 
 var config = {
   devtool: 'eval',
-  entry: APP_DIR + '/App.jsx',
+  entry: APP_DIR + '/components/App.jsx',
   output: {
     path: BUILD_DIR,
     filename: 'bundle.js'
+  },
+  resolve: {
+    root: APP_DIR,
+    extensions: ['', '.js', '.jsx']
   },
   module : {
     loaders : [
       {
         test : /\.jsx?/,
-        include : APP_DIR,
-        loader : 'babel-loader'
+        loader : 'babel-loader',
+        exclude: /node_modules/
       }
     ]
   },

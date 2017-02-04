@@ -1,11 +1,11 @@
 import React from 'react'
-import { render } from 'react-dom'
 import { Jumbotron } from 'react-bootstrap'
 import $ from 'jquery'
 import _ from 'lodash'
 
-import Graph from './Graph.jsx'
-import Navigation from './Navigation.jsx'
+import Graph from './Graph'
+import Navigation from './Navigation'
+import PropHelper from 'helpers/PropHelper'
 
 class App extends React.Component {
   constructor(props) {
@@ -127,4 +127,4 @@ class App extends React.Component {
   }
 }
 
-render(<App/>, document.getElementById('app'))
+PropHelper.render(<App/>, 'app')
