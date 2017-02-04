@@ -5,8 +5,6 @@ import Navigation from './Navigation'
 
 class Unauthorized extends React.Component {
   render() {
-    const { makePlaylist, searchArtistAndRelated } = this.props
-
     return (
       <div style={{ height: '100%', overflow: 'hidden' }}>
         <Navigation auth={false} />
