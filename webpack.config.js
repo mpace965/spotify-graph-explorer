@@ -5,6 +5,7 @@ const BUILD_DIR = path.resolve(__dirname, 'public')
 const APP_DIR = path.resolve(__dirname, 'client')
 
 const config = {
+  devtool: 'eval',
   entry: APP_DIR + '/components/App.jsx',
   output: {
     path: BUILD_DIR,
