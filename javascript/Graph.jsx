@@ -67,44 +67,49 @@ class Graph extends React.Component {
     }
   }
 
+  insertArtist(artist) {
+    this.insertIfNotExistsInGraph(artist.id,
+      {
+        id: artist.id,
+        name: artist.name,
+        image: this.artistImageUrlIfExists(artist)
+      }
+    )
+  }
+
+  insertEdge(source, target) {
+    const id = `${source}-${target}`
+
+    this.insertIfNotExistsInGraph(id,
+      {
+        id,
+        source,
+        target
+      }
+    )
+  }
+
+  insertIfNotExistsInGraph(id, data) {
+    if (!this.cy.getElementById(id).length) {
+      this.cy.add({ data })
+    }
+  }
+
   addArtistsToGraph() {
     const { getArtistAndRelated } = this.props
     const { artist, related_artists } = this.props.artistAndRelated
     const { loadedArtists } = this.props
 
     // Add center artist node to graph
-    if (!this.cy.getElementById(artist.id).length) {
-      this.cy.add({ data: {
-          id: artist.id,
-          name: artist.name,
-          image: this.artistImageUrlIfExists(artist)
-        }
-      })
-    }
+    this.insertArtist(artist)
 
     this.cy.getElementById(artist.id).addClass('loaded')
 
     // Add all related artists nodes to graph, and connect them to center
     // artist
     _.forEach(related_artists, relatedArtist => {
-      if (!this.cy.getElementById(relatedArtist.id).length) {
-        this.cy.add({ data: {
-            id: relatedArtist.id,
-            name: relatedArtist.name,
-            image: this.artistImageUrlIfExists(relatedArtist)
-          }
-        })
-      }
-
-      if (!this.cy.getElementById(`${artist.id}-${relatedArtist.id}`).length) {
-        this.cy.add({
-          data: {
-            id: `${artist.id}-${relatedArtist.id}`,
-            source: artist.id,
-            target: relatedArtist.id
-          }
-        })
-      }
+      this.insertArtist(relatedArtist)
+      this.insertEdge(artist.id, relatedArtist.id)
     })
 
     // Redraw the layout
