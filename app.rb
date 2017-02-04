@@ -11,8 +11,6 @@ set :sessions, true
 set :haml, format: :html5
 set :public_folder, 'public'
 
-RSpotify::authenticate(ENV['SPOTIFY_CLIENT_ID'], ENV['SPOTIFY_CLIENT_SECRET'])
-
 use OmniAuth::Builder do
   provider :spotify, ENV['SPOTIFY_CLIENT_ID'], ENV['SPOTIFY_CLIENT_SECRET'], scope: 'playlist-modify-public playlist-modify-private'
 end
