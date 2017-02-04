@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { Jumbotron, Navbar, Nav, NavDropdown, MenuItem, Modal } from 'react-bootstrap'
+import { Jumbotron, Navbar, Nav, NavDropdown, MenuItem } from 'react-bootstrap'
 import $ from 'jquery'
 import _ from 'lodash'
 
@@ -15,14 +15,9 @@ class App extends React.Component {
       artistAndRelated: {},
       loadedArtists: [],
       destroyGraph: false,
-      showPlaylistModal: false,
       playlistInfo: {},
       hasSearched: false
     }
-  }
-
-  closePlayListModal() {
-    this.setState({ showPlaylistModal: false })
   }
 
   processSearchAndGet(artistAndRelated) {
@@ -71,13 +66,15 @@ class App extends React.Component {
       }
     })
 
+    const newWindow = window.open('', '_blank')
+
     if (this.state.loadedArtists.length >= 2) {
       $.ajax({
         type: 'get',
         url: '/make-playlist',
         data: {artistChain},
         success: response => {
-          this.setState({ showPlaylistModal: true, playlistInfo: response })
+          newWindow.location.href = response.url
         },
         error: response => {
           console.log(response)
@@ -145,21 +142,6 @@ class App extends React.Component {
       <div style={{ height: '100%', overflow: 'hidden' }}>
         {this.renderNavbar()}
         {this.renderHelpOrGraph()}
-
-        <Modal
-          show={this.state.showPlaylistModal}
-          onHide={() => this.closePlayListModal()}
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>{this.state.playlistInfo.title}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <p>
-              Your playlist that connects {this.state.playlistInfo.title} has been made.{' '}
-              <a href={this.state.playlistInfo.url} target='_blank'>Click here</a> to access it!
-            </p>
-          </Modal.Body>
-        </Modal>
       </div>
     )
   }
