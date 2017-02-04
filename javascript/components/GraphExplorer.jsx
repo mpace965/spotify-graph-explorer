@@ -46,6 +46,7 @@ class GraphExplorer extends React.Component {
     return (
       <div style={{ height: '100%', overflow: 'hidden' }}>
         <Navigation
+          auth={true}
           makePlaylist={() => makePlaylist()}
           searchArtistAndRelated={artist => searchArtistAndRelated(artist)}
         />

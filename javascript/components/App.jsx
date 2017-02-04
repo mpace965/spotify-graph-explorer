@@ -2,8 +2,10 @@ import React from 'react'
 import $ from 'jquery'
 import _ from 'lodash'
 
-import GraphExplorer from './GraphExplorer'
 import PropHelper from 'helpers/PropHelper'
+
+import GraphExplorer from './GraphExplorer'
+import Unauthorized from './Unauthorized'
 
 class App extends React.Component {
   constructor(props) {
@@ -86,17 +88,25 @@ class App extends React.Component {
   }
 
   render() {
-    return (
-      <GraphExplorer
-        artistAndRelated={this.state.artistAndRelated}
-        destroyGraph={this.state.destroyGraph}
-        getArtistAndRelated={id => this.getArtistAndRelated(id)}
-        hasSearched={this.state.hasSearched}
-        loadedArtists={this.state.loadedArtists}
-        makePlaylist={() => this.makePlaylist()}
-        searchArtistAndRelated={artist => this.searchArtistAndRelated(artist)}
-      />
-    )
+    const { auth } = this.props
+
+    if (auth) {
+      return (
+        <GraphExplorer
+          artistAndRelated={this.state.artistAndRelated}
+          destroyGraph={this.state.destroyGraph}
+          getArtistAndRelated={id => this.getArtistAndRelated(id)}
+          hasSearched={this.state.hasSearched}
+          loadedArtists={this.state.loadedArtists}
+          makePlaylist={() => this.makePlaylist()}
+          searchArtistAndRelated={artist => this.searchArtistAndRelated(artist)}
+        />
+      )
+    } else {
+      return (
+        <Unauthorized />
+      )
+    }
   }
 }
 
