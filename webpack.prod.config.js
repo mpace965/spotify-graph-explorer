@@ -2,7 +2,7 @@ var webpack = require('webpack');
 var path = require('path');
 
 var BUILD_DIR = path.resolve(__dirname, 'public');
-var APP_DIR = path.resolve(__dirname, 'javascript');
+var APP_DIR = path.resolve(__dirname, 'client');
 
 var config = {
   devtool: 'eval',
