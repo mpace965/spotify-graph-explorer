@@ -13,7 +13,7 @@ var config = {
   },
   resolve: {
     root: APP_DIR,
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx', '.less']
   },
   module : {
     loaders : [
