@@ -1,10 +1,8 @@
 import React from 'react'
-import { Jumbotron } from 'react-bootstrap'
 import $ from 'jquery'
 import _ from 'lodash'
 
-import Graph from './Graph'
-import Navigation from './Navigation'
+import GraphExplorer from './GraphExplorer'
 import PropHelper from 'helpers/PropHelper'
 
 class App extends React.Component {
@@ -87,42 +85,17 @@ class App extends React.Component {
     this.setState({ destroyGraph: !this.state.destroyGraph })
   }
 
-  renderHelpOrGraph() {
-    if (this.state.hasSearched) {
-      return (
-        <Graph
-          artistAndRelated={this.state.artistAndRelated}
-          destroyGraph={this.state.destroyGraph}
-          getArtistAndRelated={artist => this.getArtistAndRelated(artist)}
-          loadedArtists={this.state.loadedArtists}
-        />
-      )
-    } else {
-      return (
-        <div className='container'>
-          <Jumbotron>
-            <h1>Let's get started</h1>
-            <h4>
-              Search for any of your favorite artists and take a look at artists similar{' '}
-              to them. Then, click on any node to explore its related artists. After selecting{' '}
-              several artists, you can export your similar artists chain as a playlist on your{' '}
-              Spotify account!
-            </h4>
-          </Jumbotron>
-        </div>
-      )
-    }
-  }
-
   render() {
     return (
-      <div style={{ height: '100%', overflow: 'hidden' }}>
-        <Navigation
-          makePlaylist={() => this.makePlaylist()}
-          searchArtistAndRelated={artist => this.searchArtistAndRelated(artist)}
-        />
-        {this.renderHelpOrGraph()}
-      </div>
+      <GraphExplorer
+        artistAndRelated={this.state.artistAndRelated}
+        destroyGraph={this.state.destroyGraph}
+        getArtistAndRelated={id => this.getArtistAndRelated(id)}
+        hasSearched={this.state.hasSearched}
+        loadedArtists={this.state.loadedArtists}
+        makePlaylist={() => this.makePlaylist()}
+        searchArtistAndRelated={artist => this.searchArtistAndRelated(artist)}
+      />
     )
   }
 }
