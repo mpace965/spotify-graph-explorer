@@ -1,10 +1,10 @@
-var webpack = require('webpack')
-var path = require('path')
+const webpack = require('webpack')
+const path = require('path')
 
-var BUILD_DIR = path.resolve(__dirname, 'public')
-var APP_DIR = path.resolve(__dirname, 'client')
+const BUILD_DIR = path.resolve(__dirname, 'public')
+const APP_DIR = path.resolve(__dirname, 'client')
 
-var config = {
+const config = {
   devtool: 'eval',
   entry: APP_DIR + '/components/App.jsx',
   output: {
