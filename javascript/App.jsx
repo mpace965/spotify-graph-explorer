@@ -1,11 +1,11 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { Jumbotron, Navbar, Nav, NavDropdown, MenuItem } from 'react-bootstrap'
+import { Jumbotron } from 'react-bootstrap'
 import $ from 'jquery'
 import _ from 'lodash'
 
 import Graph from './Graph.jsx'
-import Search from './Search.jsx'
+import Navigation from './Navigation.jsx'
 
 class App extends React.Component {
   constructor(props) {
@@ -87,29 +87,6 @@ class App extends React.Component {
     this.setState({ destroyGraph: !this.state.destroyGraph })
   }
 
-  renderNavbar() {
-    return (
-      <Navbar id='nav' style={{ marginBottom: '0px' }}>
-        <Navbar.Header>
-          <Navbar.Brand>
-            <a href='#' onClick={() => location.reload()}>Spotify Graph Explorer</a>
-          </Navbar.Brand>
-        </Navbar.Header>
-        <Nav pullRight>
-          <NavDropdown title='Tools' id='basic-nav-pulldown'>
-            <MenuItem onClick={() => this.makePlaylist()}>Make Playlist</MenuItem>
-            <MenuItem href='/logout'>Sign Out</MenuItem>
-          </NavDropdown>
-        </Nav>
-        <Nav pullRight>
-          <Search
-            searchArtistAndRelated={artist => this.searchArtistAndRelated(artist)}
-          />
-        </Nav>
-      </Navbar>
-    )
-  }
-
   renderHelpOrGraph() {
     if (this.state.hasSearched) {
       return (
@@ -140,7 +117,10 @@ class App extends React.Component {
   render() {
     return (
       <div style={{ height: '100%', overflow: 'hidden' }}>
-        {this.renderNavbar()}
+        <Navigation
+          makePlaylist={() => this.makePlaylist()}
+          searchArtistAndRelated={artist => this.searchArtistAndRelated(artist)}
+        />
         {this.renderHelpOrGraph()}
       </div>
     )
