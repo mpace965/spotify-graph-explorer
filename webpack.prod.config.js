@@ -64,6 +64,15 @@ const config = {
       'process.env': {
         'NODE_ENV': JSON.stringify('production')
       }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      mangle: false,
+      compress: {
+        dead_code: true,
+        drop_debugger: true,
+        drop_console: true,
+        warnings: false
+      },
     })
   ]
 }

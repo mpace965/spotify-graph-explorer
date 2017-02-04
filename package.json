@@ -9,8 +9,8 @@
   },
   "scripts": {
     "dev": "webpack -d --watch",
-    "build": "webpack --config webpack.prod.config.js -p",
-    "heroku-postbuild": "webpack --config webpack.prod.config.js -p"
+    "build": "webpack --config webpack.prod.config.js",
+    "heroku-postbuild": "webpack --config webpack.prod.config.js"
   },
   "author": "",
   "license": "ISC",
