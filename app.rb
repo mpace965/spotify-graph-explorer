@@ -15,6 +15,8 @@ use OmniAuth::Builder do
   provider :spotify, ENV['SPOTIFY_CLIENT_ID'], ENV['SPOTIFY_CLIENT_SECRET'], scope: 'playlist-modify-public playlist-modify-private'
 end
 
+use Rack::Deflater
+
 get '/' do
   haml :index
 end
