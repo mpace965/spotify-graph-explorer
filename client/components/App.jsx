@@ -1,6 +1,6 @@
 import React from 'react'
-import $ from 'jquery'
-import _ from 'lodash'
+import { ajax } from 'jquery'
+import { union, map } from 'lodash'
 
 import 'style/bootswatch'
 
@@ -25,7 +25,7 @@ class App extends React.Component {
   processSearchAndGet(artistAndRelated) {
     const { artist } = artistAndRelated
     const { loadedArtists } = this.state
-    const newLoadedArtists = _.union(loadedArtists, [artist])
+    const newLoadedArtists = union(loadedArtists, [artist])
 
     this.setState({ artistAndRelated, loadedArtists: newLoadedArtists })
   }
@@ -33,7 +33,7 @@ class App extends React.Component {
   searchArtistAndRelated(name) {
     this.setState({ hasSearched: true })
 
-    $.ajax({
+    ajax({
       type: 'get',
       url: '/artist/search',
       data: { name },
@@ -47,7 +47,7 @@ class App extends React.Component {
   }
 
   getArtistAndRelated(id) {
-    $.ajax({
+    ajax({
       type: 'get',
       url: '/artist/find',
       data: { id },
@@ -61,7 +61,7 @@ class App extends React.Component {
   }
 
   makePlaylist() {
-    const artistChain = _.map(this.state.loadedArtists, artist => {
+    const artistChain = map(this.state.loadedArtists, artist => {
       return {
         name: artist.name,
         id: artist.id
@@ -71,7 +71,7 @@ class App extends React.Component {
     const newWindow = window.open('', '_blank')
 
     if (this.state.loadedArtists.length >= 2) {
-      $.ajax({
+      ajax({
         type: 'get',
         url: '/make-playlist',
         data: {artistChain},

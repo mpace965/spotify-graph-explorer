@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const path = require('path')
+const CompressionPlugin = require('compression-webpack-plugin')
 
 const BUILD_DIR = path.resolve(__dirname, 'public')
 const APP_DIR = path.resolve(__dirname, 'client')
@@ -68,12 +69,25 @@ const config = {
     new webpack.optimize.UglifyJsPlugin({
       mangle: false,
       compress: {
+        warnings: false,
+        screw_ie8: true,
+        conditionals: true,
+        unused: true,
+        comparisons: true,
+        sequences: true,
         dead_code: true,
+        evaluate: true,
+        if_return: true,
+        join_vars: true,
         drop_debugger: true,
         drop_console: true,
-        warnings: false
-      },
-    })
+      }
+    }),
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+      debug: false
+    }),
+    new CompressionPlugin()
   ]
 }
 

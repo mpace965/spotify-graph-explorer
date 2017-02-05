@@ -1,9 +1,5 @@
 node_modules/
-public/bundle*
-public/*.eot
-public/*.woff2
-public/*.woff
-public/*.ttf
-public/*.svg
+public/*
+!public/favicon.ico
 .env
 *.log

@@ -1,7 +1,7 @@
 import React from 'react'
 import cytoscape from 'cytoscape'
 import regCose from 'cytoscape-cose-bilkent'
-import _ from 'lodash'
+import { find, first, forEach } from 'lodash'
 
 class Graph extends React.Component {
   cy = null
@@ -60,7 +60,7 @@ class Graph extends React.Component {
   }
 
   artistImageUrlIfExists(artist) {
-    const image = _.first(artist.images)
+    const image = first(artist.images)
 
     if (image) {
       return image.url
@@ -97,11 +97,11 @@ class Graph extends React.Component {
 
   resetTapEvents(artist) {
     const { getArtistAndRelated } = this.props
-    
+
     this.cy.$('node').off('tap')
     this.cy.$('node').on('tap', event => {
       const ele = event.cyTarget
-      const found = _.find(this.props.loadedArtists, artist => {
+      const found = find(this.props.loadedArtists, artist => {
         return ele.data('id') === artist.id
       })
 
@@ -123,7 +123,7 @@ class Graph extends React.Component {
 
     // Add all related artists nodes to graph, and connect them to center
     // artist
-    _.forEach(related_artists, relatedArtist => {
+    forEach(related_artists, relatedArtist => {
       this.insertArtist(relatedArtist)
       this.insertEdge(artist.id, relatedArtist.id)
     })
