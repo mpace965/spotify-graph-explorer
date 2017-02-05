@@ -4,6 +4,16 @@ import { Navbar, Nav, NavDropdown, MenuItem } from 'react-bootstrap'
 import Search from './Search.jsx'
 
 class Navigation extends React.Component {
+  enableMakePlaylist() {
+    const { loadedArtists } = this.props
+
+    if (loadedArtists) {
+      return loadedArtists.length >= 2
+    }
+
+    return false
+  }
+
   renderTools() {
     const { auth, makePlaylist } = this.props
 
@@ -11,7 +21,7 @@ class Navigation extends React.Component {
       return (
         <Nav pullRight>
           <NavDropdown title='Tools' id='basic-nav-pulldown'>
-            <MenuItem onClick={() => makePlaylist()}>Make Playlist</MenuItem>
+            <MenuItem onClick={() => makePlaylist()} disabled={!this.enableMakePlaylist()}>Make Playlist</MenuItem>
             <MenuItem href='/logout'>Sign Out</MenuItem>
           </NavDropdown>
         </Nav>

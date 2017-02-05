@@ -41,12 +41,13 @@ class GraphExplorer extends React.Component {
   }
 
   render() {
-    const { makePlaylist, searchArtistAndRelated } = this.props
+    const { loadedArtists, makePlaylist, searchArtistAndRelated } = this.props
 
     return (
       <div style={{ height: '100%', overflow: 'hidden' }}>
         <Navigation
           auth={true}
+          loadedArtists={loadedArtists}
           makePlaylist={() => makePlaylist()}
           searchArtistAndRelated={artist => searchArtistAndRelated(artist)}
         />
