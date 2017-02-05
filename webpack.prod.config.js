@@ -1,6 +1,5 @@
 const webpack = require('webpack')
 const path = require('path')
-const CompressionPlugin = require('compression-webpack-plugin')
 
 const BUILD_DIR = path.resolve(__dirname, 'public')
 const APP_DIR = path.resolve(__dirname, 'client')
@@ -87,7 +86,6 @@ const config = {
       minimize: true,
       debug: false
     }),
-    new CompressionPlugin()
   ]
 }
 
