@@ -9,7 +9,7 @@ const config = {
   entry: APP_DIR + '/components/App.jsx',
   output: {
     path: BUILD_DIR,
-    filename: 'bundle.js'
+    filename: 'js/bundle.js'
   },
   resolve: {
     modules: [
@@ -34,28 +34,12 @@ const config = {
         ]
       },
       {
-        test: /\.png$/,
-        loader: "url-loader?limit=100000"
+        test: /\.(woff|woff2|eot|ttf)$/,
+        loader: 'url-loader?limit=10000&name=fonts/[name].[ext]'
       },
       {
-        test: /\.jpg$/,
-        loader: "file-loader"
-      },
-      {
-        test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url-loader?limit=10000&mimetype=application/font-woff'
-      },
-      {
-        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url-loader?limit=10000&mimetype=application/octet-stream'
-      },
-      {
-        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'file-loader'
-      },
-      {
-        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url-loader?limit=10000&mimetype=image/svg+xml'
+        test: /\.(png|jpg|svg)$/,
+        loader: 'url-loader?limit=10000&name=img/[name].[ext]'
       }
     ]
   }
