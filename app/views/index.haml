@@ -3,6 +3,7 @@
 %html{ style: 'height: 100%' }
   %head
     %title Spotify Graph Explorer
+    %link{ rel: 'stylesheet', type: 'text/css', href: 'css/style.css' }
   %body{ style: 'height: 100%' }
     - auth = true if session[:spotify_user]
     #app{ style: 'height: 100%; overflow: hidden', reactprops: { auth: auth }.to_json }
