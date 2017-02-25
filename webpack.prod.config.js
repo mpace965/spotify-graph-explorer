@@ -64,7 +64,8 @@ const config = {
         join_vars: true,
         drop_debugger: true,
         drop_console: true,
-      }
+      },
+      sourceMap: true
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
